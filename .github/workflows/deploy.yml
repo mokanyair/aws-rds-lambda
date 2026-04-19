@@ -1,4 +1,4 @@
-name: Deploy Terraform to AWS
+name: Deploy Serverless INFRA with Terraform to AWS
 
 on:
   push:
