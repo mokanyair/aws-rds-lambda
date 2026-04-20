@@ -3,9 +3,9 @@ resource "aws_db_subnet_group" "main" {
 }
 
 resource "aws_db_instance" "mysql" {
-  engine               = "mysql"
-  instance_class       = "db.t3.micro"
-  allocated_storage    = 20
+  engine            = "mysql"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
 
   username = var.db_username
   password = var.db_password
