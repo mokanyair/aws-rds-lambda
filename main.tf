@@ -93,10 +93,10 @@ resource "aws_iam_role_policy_attachment" "vpc" {
 resource "aws_lambda_function" "lambda" {
   function_name = "rds-writer"
 
-  filename         = "lambda/lambda_function.zip"
-  handler          = "lambda_function.lambda_handler"
-  runtime          = "python3.10"
-  role             = aws_iam_role.lambda_role.arn
+  filename = "lambda/lambda_function.zip"
+  handler  = "lambda_function.lambda_handler"
+  runtime  = "python3.10"
+  role     = aws_iam_role.lambda_role.arn
 
   vpc_config {
     subnet_ids         = aws_subnet.private[*].id
