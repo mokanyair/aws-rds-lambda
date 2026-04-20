@@ -1,6 +1,6 @@
 data "archive_file" "zip" {
   type        = "zip"
-  source_file = "lambda/lambda_function.py"
+  source_dir  = "lambda"
   output_path = "lambda/lambda_function.zip"
 }
 
@@ -30,7 +30,7 @@ resource "aws_lambda_function" "lambda" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda-role"
+  name = "rds-writer-lambda-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -42,4 +42,14 @@ resource "aws_iam_role" "lambda_role" {
       }
     }]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "vpc_access" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "basic_execution" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }

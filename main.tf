@@ -27,7 +27,7 @@ module "proxy" {
   security_group = module.vpc.rds_sg
   role_arn       = module.iam.proxy_role_arn
   secret_arn     = module.secrets.secret_arn
-  db_instance_id = module.rds.db_id
+  db_instance_id = module.rds.db_identifier
 }
 
 module "lambda" {
