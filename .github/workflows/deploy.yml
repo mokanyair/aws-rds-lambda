@@ -13,10 +13,6 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: .
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -32,11 +28,20 @@ jobs:
           role-to-assume: arn:aws:iam::866317130608:role/github-actions-terraform-role
           aws-region: us-east-1
 
+      - name: Package Lambda with dependencies
+        run: |
+          rm -rf build
+          mkdir build
+          cp lambda/lambda_function.py build/
+          pip install pymysql -t build/
+          cd build
+          zip -r ../lambda_function.zip .
+
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -upgrade
 
       - name: Terraform Format Check
-        run: terraform fmt
+        run: terraform fmt -check -recursive
 
       - name: Terraform Validate
         run: terraform validate
